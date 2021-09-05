@@ -1,0 +1,147 @@
+{
+	"variables": [],
+	"info": {
+		"name": "test_project",
+		"_postman_id": "3cb248ea-12b5-9056-36f7-63c886c6919b",
+		"description": "this is a test_project test_case",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "员工管理",
+			"description": "this is a module for mannager",
+			"item": [
+				{
+					"name": "login-APPI001登陆成功",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"//断言响应状态码为200",
+									"pm.test(\"断言响应状态码为200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"checke message\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"操作成功！\");",
+									"});",
+									"",
+									"pm.environment.set(\"my_token\", \"Bearer \"+jsonData.data);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{base_url}}/api/sys/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\t\"mobile\": \"13800000002\",\n\t\"password\": \"123456\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "新增员工",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jd = pm.response.json()",
+									"pm.environment.set(\"my_id\", jd.data.id)"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{base_url}}/api/sys/user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{my_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"l1y1\",\n\t\"mobile\": \"13628678469\",\n\t\"workNumber\": \"1564\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "查询员工",
+					"request": {
+						"url": "{{base_url}}/api/sys/user/1432353319262617600",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{my_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"mcc\",\n\t\"mobile\": \"13627678469\",\n\t\"workNumber\": \"10\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "删除员工",
+					"request": {
+						"url": "{{base_url}}/api/sys/user/{{my_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "{{my_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
